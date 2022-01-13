@@ -1,3 +1,9 @@
+# Things Learned
+
+- Creacte React App Tailwind CSS integration
+- Custom Fonts Tailwind CSS Implementation
+- Typescript integration
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
