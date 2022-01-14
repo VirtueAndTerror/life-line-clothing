@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { SHOP_DATA } from '../lib/shop-data';
+import { SHOP_DATA } from '../../lib/shop-data';
 
-import CollectionPreview from '../components/CollectionPreview';
+import CollectionPreview from '../../components/collection-preview/CollectionPreview';
 
 export interface Collections {
   id: number;
@@ -35,7 +35,7 @@ class ShopPage extends React.Component<ShopPageProps, ShopPageState> {
     return (
       <div className='h-screen'>
         {collections.map(({ id, ...otherCollectionProps }) => (
-          <CollectionPreview key={id} {...otherCollectionProps} />
+          <CollectionPreview key={id} id={id} {...otherCollectionProps} />
         ))}
       </div>
     );

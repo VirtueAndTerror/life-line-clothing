@@ -1,5 +1,7 @@
 import React from 'react';
-import MenuItem from './MenuItem';
+import MenuItem from '../menu-item/MenuItem';
+
+import './directory.scss';
 
 const sections = [
   {
@@ -57,15 +59,13 @@ class Directory extends React.Component<DirectoryProps, DirectoryState> {
   }
   render() {
     return (
-      <div className='w-full h-[90%] flex flex-wrap justify-between'>
-        {sections.map(({ id, size = '', ...sectionProps }) => (
+      <div className='directory-menu'>
+        {this.state.sections.map(({ id, size = '', ...sectionProps }) => (
           <MenuItem key={id} size={size} {...sectionProps} />
         ))}
       </div>
     );
   }
 }
-
-// imageUrl={imageUrl} title={title} size={size}
 
 export default Directory;
