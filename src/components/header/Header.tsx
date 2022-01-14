@@ -1,10 +1,16 @@
+import type { User } from 'firebase/auth';
+import { signOutUser } from '../../firebase/firebase.utils';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import './header.scss';
 
-const Header = () => {
+interface HProps {
+  currentUser: User | null;
+}
+
+const Header = ({ currentUser }: HProps) => {
   return (
     <div className='header'>
       <Link className='logo-container' to='/'>
@@ -17,6 +23,13 @@ const Header = () => {
         <div className='option'>
           <Link to='/shop'>CONTACT</Link>
         </div>
+        {currentUser ? (
+          <div className='option' onClick={signOutUser}>
+            SIGN OUT
+          </div>
+        ) : (
+          <Link to='/signIn'>SIGN IN</Link>
+        )}
       </div>
     </div>
   );

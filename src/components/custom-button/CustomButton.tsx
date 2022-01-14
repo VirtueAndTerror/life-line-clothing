@@ -3,11 +3,16 @@ import './custom-button.scss';
 interface CBProps {
   children: string;
   type?: 'submit' | 'reset' | 'button';
+  onClick?: () => {};
+  isGoogleSignIn?: boolean;
 }
 
-const CustomButton = ({ children, ...otherProps }: CBProps) => (
+const CustomButton = ({ children, isGoogleSignIn, ...otherProps }: CBProps) => (
   // Now if we have a type='submit', the button will get that
-  <button className='custom-button' {...otherProps}>
+  <button
+    className={`${isGoogleSignIn ? 'google-sign-in' : ''} custom-button`}
+    {...otherProps}
+  >
     {children}
   </button>
 );
