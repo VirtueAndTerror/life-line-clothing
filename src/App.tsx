@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className='w-full h-screen font-noto-sans py-8 px-10'>
+    <div>
       <Header />
       <Routes>
         <Route path='' element={<HomePage />} />
