@@ -1,9 +1,12 @@
+import { UserCredential } from 'firebase/auth';
 import './custom-button.scss';
 
 interface CBProps {
   children: string;
   type?: 'submit' | 'reset' | 'button';
-  onClick?: () => {};
+  onClick?: (
+    e: React.FormEvent | React.ChangeEvent
+  ) => void | Promise<void> | Promise<UserCredential>;
   isGoogleSignIn?: boolean;
 }
 

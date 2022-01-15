@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { auth } from './firebase/firebase.utils';
-import type { Unsubscribe, User } from 'firebase/auth';
+
+/* Firebase */
+import { onAuthStateChanged } from 'firebase/auth';
+import { onSnapshot } from 'firebase/firestore';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 /* Pages */
 import HomePage from './pages/home/HomePage';
@@ -14,14 +17,32 @@ import Header from './components/header/Header';
 /* CSS */
 import './App.css';
 
-function App() {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+export interface CurrentUser {
+  id: string;
+  email: string;
+  displayName: string;
+  createdAt: object;
+}
 
-  let unsubscribe: any = null;
+function App() {
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+
   useEffect(() => {
-    unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      console.log({ currentUser });
+    const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
+      if (userAuth) {
+        const userDocRef = await createUserProfileDocument(userAuth, {});
+
+        if (userDocRef) {
+          onSnapshot(userDocRef, (docSnap) => {
+            const user = { id: docSnap.id, ...docSnap.data() } as CurrentUser;
+
+            console.log(user);
+            setCurrentUser(user);
+          });
+        } else {
+          setCurrentUser(null);
+        }
+      }
     });
 
     return () => {
