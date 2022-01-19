@@ -1,10 +1,20 @@
-import { Item } from '../../pages/shop/ShopPage';
+import { connect, ConnectedProps } from 'react-redux';
+
+import CustomButton from '../custom-button/CustomButton';
+
+import { addItem } from '../../redux/cart/cart-actions';
+
+import type { Item } from '../../pages/shop/ShopPage';
+import type { AppDispatch } from '../../redux/store';
 
 import './collection-item.scss';
 
-type CIProps = Item;
+interface CIProps extends PropsFromRedux {
+  item: Item;
+}
 
-const CollectionItem = ({ id, name, price, imageUrl }: CIProps) => {
+const CollectionItem = ({ item, addItem }: CIProps) => {
+  const { name, price, imageUrl } = item;
   return (
     <div className='collection-item'>
       <div
@@ -15,8 +25,20 @@ const CollectionItem = ({ id, name, price, imageUrl }: CIProps) => {
         <span className='name'>{name}</span>
         <span className='price'>{price}</span>
       </div>
+      <CustomButton onClick={() => addItem(item)} inverted>
+        ADD TO CART
+      </CustomButton>
     </div>
   );
 };
 
-export default CollectionItem;
+/* Redux & Typescript */
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  addItem: (item: Item) => dispatch(addItem(item)),
+});
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(CollectionItem);

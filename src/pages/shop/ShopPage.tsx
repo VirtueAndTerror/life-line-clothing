@@ -16,6 +16,7 @@ export interface Item {
   name: string;
   imageUrl: string;
   price: number;
+  quantity?: number;
 }
 
 interface ShopPageProps {}
