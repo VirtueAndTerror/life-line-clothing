@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { SHOP_DATA } from '../../lib/shop-data';
+import SHOP_DATA from '../../lib/shop-data';
 
 import CollectionPreview from '../../components/collection-preview/CollectionPreview';
 
