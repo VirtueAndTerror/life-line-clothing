@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { FirebaseError, initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   onSnapshot,
@@ -60,7 +60,10 @@ export const createUserProfileDocument = async (
         ...additionalData,
       });
     } catch (err: any) {
-      console.error('Error while creating a user --firebase.utils.tsx', err);
+      console.error(
+        'Error while creating a user --firebase.utils.tsx',
+        err.message
+      );
     }
   }
 
