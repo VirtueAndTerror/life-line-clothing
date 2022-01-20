@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
+import { selectCurrentUser } from '../../redux/user/user-selector';
 
 import type { RootState } from '../../redux/store';
 
@@ -15,8 +16,8 @@ const PrivateRoute = ({ currentUser, redirectTo }: PRProps) => {
 };
 
 /* Redux w/ Typescript */
-const mapStateToProps = ({ user }: RootState) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = (state: RootState) => ({
+  currentUser: selectCurrentUser(state),
 });
 
 const connector = connect(mapStateToProps);

@@ -16,7 +16,8 @@ const CartIcon = ({ toggleCartHidden, itemCount }: CIProps) => (
 );
 
 const mapStateToProps = (state: RootState) => ({
-  // We pass the whole RootState into the selector.
+  /*  We pass the whole RootState into the selector,
+  instead of destructuring it. */
   itemCount: selectCartItemsCount(state),
 });
 

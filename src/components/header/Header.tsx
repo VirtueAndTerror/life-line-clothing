@@ -2,6 +2,10 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signOutUser } from '../../firebase/firebase.utils';
 
+import { createStructuredSelector } from 'reselect';
+import { selectCartHidden } from '../../redux/cart/cart-selectors';
+import { selectCurrentUser } from '../../redux/user/user-selector';
+
 import CartIcon from '../cart-icon/CartIcon';
 import CartDropdown from '../cart-dropdown/CartDropdown';
 
@@ -43,12 +47,10 @@ const Header = ({ currentUser, hidden }: HProps) => {
   );
 };
 
-const mapStateToProps = ({
-  user: { currentUser },
-  cart: { hidden },
-}: RootState) => ({
-  currentUser,
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  // With 'reselect'library we pass createStructuredSelector instead on a function that take the state.
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden,
 });
 
 const connector = connect(mapStateToProps);
