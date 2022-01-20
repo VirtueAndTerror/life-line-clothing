@@ -1,4 +1,3 @@
-import { UserCredential } from 'firebase/auth';
 import './custom-button.scss';
 
 interface CBProps {

@@ -27,7 +27,7 @@ export type CurrentUser = {
   id: string;
   email: string;
   displayName: string;
-  createdAt: object;
+  createdAt: Date;
 } | null;
 
 interface AppProps extends PropsFromRedux {}
