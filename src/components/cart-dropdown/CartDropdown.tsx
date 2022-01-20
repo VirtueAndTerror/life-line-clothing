@@ -2,8 +2,11 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import CustomButton from '../custom-button/CustomButton';
 import CartItem from '../cart-item/CartItem';
+import { selectCartItems } from '../../redux/cart/cart-selectors';
+
+import type { RootState } from '../../redux/store';
+
 import './cart-dropdown.scss';
-import { RootState } from '../../redux/store';
 
 interface CartProps extends PropsFormRedux {}
 
@@ -18,8 +21,8 @@ const Cart = ({ cartItems }: CartProps) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { cartItems } }: RootState) => ({
-  cartItems,
+const mapStateToProps = (state: RootState) => ({
+  cartItems: selectCartItems(state),
 });
 
 const connector = connect(mapStateToProps);

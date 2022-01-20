@@ -4,6 +4,7 @@ import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
 
 import './cart-icon.scss';
 import { AppDispatch, RootState } from '../../redux/store';
+import { selectCartItemsCount } from '../../redux/cart/cart-selectors';
 
 interface CIProps extends PropsFromRedux {}
 
@@ -14,11 +15,9 @@ const CartIcon = ({ toggleCartHidden, itemCount }: CIProps) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { cartItems } }: RootState) => ({
-  itemCount: cartItems.reduce(
-    (accQuantity, { quantity }) => accQuantity + (quantity ? quantity : 0),
-    0
-  ),
+const mapStateToProps = (state: RootState) => ({
+  // We pass the whole RootState into the selector.
+  itemCount: selectCartItemsCount(state),
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
