@@ -1,5 +1,5 @@
 import CollectionItem from '../collection-item/CollectionItem';
-import { Collections } from '../../pages/shop/ShopPage';
+import { Collections } from '../../interfaces';
 
 import './collection-preview.scss';
 

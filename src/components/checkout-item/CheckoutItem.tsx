@@ -5,7 +5,7 @@ import {
   removeItem,
 } from '../../redux/cart/cart-actions';
 
-import { Item } from '../../pages/shop/ShopPage';
+import type { Item } from '../../interfaces';
 
 import './checkout-item.scss';
 

@@ -1,4 +1,4 @@
-import { Item } from '../../pages/shop/ShopPage';
+import { Item } from '../../interfaces';
 import CartActionTypes from './cart-types';
 
 export interface ToggleHiddenAction {

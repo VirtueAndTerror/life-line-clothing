@@ -12,7 +12,6 @@ import CartDropdown from '../cart-dropdown/CartDropdown';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
 import type { CurrentUser } from '../../App';
-import type { RootState } from '../../redux/store';
 
 import './header.scss';
 

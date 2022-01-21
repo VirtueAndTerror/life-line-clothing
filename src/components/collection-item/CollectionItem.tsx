@@ -4,8 +4,7 @@ import CustomButton from '../custom-button/CustomButton';
 
 import { addItem } from '../../redux/cart/cart-actions';
 
-import type { Item } from '../../pages/shop/ShopPage';
-import type { AppDispatch } from '../../redux/store';
+import type { Item } from '../../interfaces';
 
 import './collection-item.scss';
 
@@ -33,11 +32,7 @@ const CollectionItem = ({ item, addItem }: CIProps) => {
 };
 
 /* Redux & Typescript */
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  addItem: (item: Item) => dispatch(addItem(item)),
-});
-
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(null, { addItem });
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 

@@ -1,6 +1,6 @@
 import CartActionTypes, { CartAction } from './cart-types';
 import { addItemToCart, removeItemFromCart } from './cart.utils';
-import { Item } from '../../pages/shop/ShopPage';
+import type { Item } from '../../interfaces';
 import type { Reducer } from 'redux';
 
 interface CartState {

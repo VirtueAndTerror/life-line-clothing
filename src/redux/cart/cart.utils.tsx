@@ -1,4 +1,4 @@
-import { Item } from '../../pages/shop/ShopPage';
+import { Item } from '../../interfaces';
 
 export const addItemToCart = (
   cartItems: Item[],

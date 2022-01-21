@@ -2,21 +2,28 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import store from './redux/store';
+import { store, persistor } from './redux/store';
+
+import ErrorBoundary from './components/error-boundary/ErrorBoundary';
 
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Router>
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <Router>
+        <PersistGate persistor={persistor}>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </PersistGate>
+      </Router>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

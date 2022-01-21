@@ -3,9 +3,6 @@ import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   onSnapshot,
-  Timestamp,
-  collection,
-  getDocs,
   setDoc,
   getDoc,
   doc,
@@ -68,27 +65,6 @@ export const createUserProfileDocument = async (
   }
 
   return userDocRef;
-};
-
-// @Todo - refactor utils function
-// Handle Suscription - to use inside useEffect() at App.tsx
-export const handleSubscription = () => {
-  let unsubscrbe = onAuthStateChanged(auth, async (userAuth) => {
-    if (userAuth) {
-      const userDocRef = await createUserProfileDocument(userAuth, {});
-
-      if (userDocRef) {
-        onSnapshot(userDocRef, (doc) => {
-          const currentUser = {
-            id: doc.id,
-            ...doc.data(),
-          };
-        });
-      }
-    }
-  });
-
-  return { unsubscrbe }; // This should be the currentUser to pass to setCurrentUser() on App.tsx
 };
 
 // To use in SingInAndSingUp component
