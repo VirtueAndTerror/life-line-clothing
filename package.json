@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "life-line-clothing",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@types/redux-logger": "^3.0.9",
+    "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6"
   }
 }

@@ -1,5 +1,9 @@
 import SHOP_DATA from './shop-data';
 
+export interface ShopState {
+  readonly collections: typeof SHOP_DATA;
+}
+
 const INITIAL_STATE = {
   collections: SHOP_DATA,
 };

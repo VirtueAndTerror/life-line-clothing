@@ -1,4 +1,11 @@
-const INITIAL_STATE = {
+import type { Reducer } from 'redux';
+import { DirectoryItem } from '../../components/directory/Directory';
+
+export interface DirState {
+  sections: DirectoryItem[];
+}
+
+const INITIAL_STATE: DirState = {
   sections: [
     {
       title: 'hats',
@@ -35,7 +42,7 @@ const INITIAL_STATE = {
   ],
 };
 
-const directoryReducer = (state = INITIAL_STATE, action: any) => {
+const directoryReducer: Reducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     default:
       return state;

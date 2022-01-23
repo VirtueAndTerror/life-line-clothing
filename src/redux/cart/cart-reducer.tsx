@@ -3,9 +3,9 @@ import { addItemToCart, removeItemFromCart } from './cart.utils';
 import type { Item } from '../../interfaces';
 import type { Reducer } from 'redux';
 
-interface CartState {
-  hidden: boolean;
-  cartItems: Item[];
+export interface CartState {
+  readonly hidden: boolean;
+  readonly cartItems: Item[];
 }
 
 const INITIAL_STATE: CartState = {

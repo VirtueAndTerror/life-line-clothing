@@ -9,7 +9,7 @@ import './directory.scss';
 
 interface DirProps extends PropsFromRedux {}
 
-interface Item {
+export interface DirectoryItem {
   title: string;
   imageUrl: string;
   size?: string;

@@ -2,4 +2,13 @@
   width: 380px;
   display: flex;
   flex-direction: column;
+
+  .title {
+    margin-bottom: 2px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
 }

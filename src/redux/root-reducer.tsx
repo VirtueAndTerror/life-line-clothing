@@ -2,24 +2,27 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import { CurrentUser } from '../App';
+/* Reducers */
+import userReducer, { UserState } from './user/user-reducer';
+import cartReducer, { CartState } from './cart/cart-reducer';
+import directoryReducer, { DirState } from './directory/directory-reducer';
+import shopReducer, { ShopState } from './shop/shop-reducer';
 
-import userReducer from './user/user-reducer';
-import cartReducer from './cart/cart-reducer';
-import directoryReducer from './directory/directory-reducer';
-import shopReducer from './shop/shop-reducer';
-
-export interface StoreState {
-  user: CurrentUser;
+interface StoreState {
+  user: UserState;
+  cart: CartState;
+  directory: DirState;
+  shop: ShopState;
 }
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart'],
+  whitelist: ['cart'], // UserState is already being persisted by firebase
 };
 
-const rootReducer = combineReducers({
+/* RootReducer */
+const rootReducer = combineReducers<StoreState>({
   user: userReducer,
   cart: cartReducer,
   directory: directoryReducer,

@@ -9,7 +9,6 @@ import {
 } from 'firebase/firestore';
 import {
   getAuth,
-  onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
