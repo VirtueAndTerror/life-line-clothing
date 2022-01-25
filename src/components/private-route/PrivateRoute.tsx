@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { selectCurrentUser } from '../../redux/user/user-selector';
 
@@ -9,8 +9,10 @@ interface PRProps extends PropsFromRedux {
 }
 
 const PrivateRoute = ({ currentUser, redirectTo }: PRProps) => {
-  console.log(currentUser);
-  if (currentUser) return <Navigate to={redirectTo} replace />;
+  let location = useLocation();
+  console.log({ currentUser });
+  if (currentUser)
+    return <Navigate to={redirectTo} state={{ from: location }} replace />;
 
   return <Outlet />;
 };

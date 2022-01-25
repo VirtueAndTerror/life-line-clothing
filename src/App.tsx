@@ -11,6 +11,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { setCurrentUser } from './redux/user/user-actions';
 import { selectCurrentUser } from './redux/user/user-selector';
 import { createStructuredSelector } from 'reselect';
+import { AppDispatch } from './redux/store';
 
 /* Pages */
 import HomePage from './pages/home/HomePage';
@@ -36,7 +37,7 @@ export type CurrentUser = {
 
 interface AppProps extends PropsFromRedux {}
 
-const App = ({ setCurrentUser, currentUser }: AppProps) => {
+const App = ({ setCurrentUser }: AppProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
@@ -48,7 +49,6 @@ const App = ({ setCurrentUser, currentUser }: AppProps) => {
 
             console.log({ user });
             setCurrentUser(user);
-            console.log({ currentUser });
           });
         } else {
           setCurrentUser(null);
@@ -59,23 +59,24 @@ const App = ({ setCurrentUser, currentUser }: AppProps) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [setCurrentUser]);
 
   return (
-    <div>
-      <Header />
+    <>
       <Routes>
-        <Route index element={<HomePage />} />
-        <Route path='shop' element={<ShopPage />}>
-          <Route index element={<CollectionsOverview />} />
-          <Route path=':collectionId' element={<CollectionPage />} />
-        </Route>
-        <Route path='checkout' element={<CheckoutPage />} />
-        <Route path='signIn' element={<PrivateRoute redirectTo='/' />}>
-          <Route path='' element={<SignInAndSignUpPage />} />
+        <Route element={<Header />}>
+          <Route index element={<HomePage />} />
+          <Route path='shop' element={<ShopPage />}>
+            <Route index element={<CollectionsOverview />} />
+            <Route path=':collectionId' element={<CollectionPage />} />
+          </Route>
+          <Route path='checkout' element={<CheckoutPage />} />
+          <Route path='signIn' element={<PrivateRoute redirectTo='/' />}>
+            <Route path='' element={<SignInAndSignUpPage />} />
+          </Route>
         </Route>
       </Routes>
-    </div>
+    </>
   );
 };
 
@@ -84,7 +85,11 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-const connector = connect(mapStateToProps, { setCurrentUser });
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  setCurrentUser: (user: CurrentUser) => dispatch(setCurrentUser(user)),
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 

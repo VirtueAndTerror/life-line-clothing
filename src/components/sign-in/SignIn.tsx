@@ -10,10 +10,12 @@ import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 
 /* CSS */
 import './sign-in.scss';
+import { FirebaseError } from 'firebase/app';
 
 interface SignInState {
   email: string;
   password: string;
+  error: { msg: string } | null;
 }
 
 interface SignInProps {}
@@ -25,17 +27,31 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     this.state = {
       email: '',
       password: '',
+      error: null,
     };
   }
 
-  handleSubmit = async (e: React.FormEvent) => {
+  handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password } = this.state;
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
+
       this.setState({ email: '', password: '' });
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      const error: FirebaseError = err;
+      const errorCode = error.code;
+
+      if (errorCode === 'auth/user-not-found') {
+        this.setState({
+          email: '',
+          password: '',
+          error: { msg: 'Username and password no not match' },
+        });
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -46,6 +62,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
   };
 
   render() {
+    const { error } = this.state;
     return (
       <div className='sign-in'>
         <h2 className='title'>I already have an account</h2>
@@ -76,6 +93,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
               Sign in with Google
             </CustomButton>
           </div>
+          <div className='errorMsg'>{error && <span>{error?.msg}</span>}</div>
         </form>
       </div>
     );
