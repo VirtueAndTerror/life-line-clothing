@@ -14,13 +14,13 @@ export const selectShopCollections = createSelector(
 );
 
 export const selectCollection = (collectionUrlParam: string) =>
-  createSelector(
-    selectShopCollections,
-    (collections: Map) => collections[collectionUrlParam]
+  createSelector(selectShopCollections, (collections: Map) =>
+    collections ? collections[collectionUrlParam] : null
   );
 
 export const selectCollectionsForPreview = createSelector(
   selectShopCollections,
-  //@ts-ignore
-  (collections) => Object.keys(collections).map((key) => collections[key])
+  (collections) =>
+    //@ts-ignore
+    collections ? Object.keys(collections).map((key) => collections[key]) : []
 );

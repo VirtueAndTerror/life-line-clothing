@@ -1,6 +1,14 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getFirestore, setDoc, getDoc, doc } from 'firebase/firestore';
+import { FirebaseError, initializeApp } from 'firebase/app';
+import {
+  getFirestore,
+  setDoc,
+  getDoc,
+  doc,
+  collection,
+  writeBatch,
+  QuerySnapshot,
+} from 'firebase/firestore';
 import {
   getAuth,
   GoogleAuthProvider,
@@ -8,6 +16,7 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
+import { Item } from '../interfaces';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -64,6 +73,47 @@ export const createUserProfileDocument = async (
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 export const signOutUser = () => {
   signOut(auth);
+};
+
+export const addCollectionAndDocs = async (
+  collectionKey: string,
+  objsToAdd: Item[]
+) => {
+  try {
+    const collectionRef = collection(db, collectionKey);
+
+    const batch = writeBatch(db);
+
+    objsToAdd.forEach((obj) => {
+      const newDocRef = doc(collectionRef);
+
+      batch.set(newDocRef, obj);
+    });
+
+    await batch.commit();
+  } catch (err: any) {
+    const error: FirebaseError = err;
+    console.error('Error while adding collections', error);
+  }
+};
+
+export const convertCollectionsSnapshotToMap = (collections: QuerySnapshot) => {
+  const transformedCollections = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(`${title.toLowerCase()}`),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+
+  return transformedCollections.reduce((acc, collection) => {
+    // @ts-ignore
+    acc[collection.title.toLowerCase()] = collection;
+    return acc;
+  }, {});
 };
 
 export default { db };

@@ -4,12 +4,19 @@ import { Routes, Route } from 'react-router-dom';
 /* Firebase */
 import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import {
+  auth,
+  createUserProfileDocument,
+  // addCollectionAndDocs,
+} from './firebase/firebase.utils';
 
 /* Redux & Reselect */
 import { connect, ConnectedProps } from 'react-redux';
 import { setCurrentUser } from './redux/user/user-actions';
 import { selectCurrentUser } from './redux/user/user-selector';
+// One-time use
+// import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
+
 import { createStructuredSelector } from 'reselect';
 import { AppDispatch } from './redux/store';
 
@@ -37,7 +44,7 @@ export type CurrentUser = {
 
 interface AppProps extends PropsFromRedux {}
 
-const App = ({ setCurrentUser }: AppProps) => {
+const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
@@ -49,6 +56,11 @@ const App = ({ setCurrentUser }: AppProps) => {
 
             console.log({ user });
             setCurrentUser(user);
+            /* One-time use:: migrate data to Firebase */
+            // addCollectionAndDocs(
+            //   'collections',
+            //   collectionsArray.map(({ title, items }) => ({ title, items }))
+            // );
           });
         } else {
           setCurrentUser(null);
@@ -83,6 +95,7 @@ const App = ({ setCurrentUser }: AppProps) => {
 /* Redux w/ Typescript */
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  // collectionsArray: selectCollectionsForPreview,
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({

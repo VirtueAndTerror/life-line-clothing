@@ -9,6 +9,8 @@ import './collection.scss';
 const CollectionPage = () => {
   const { collectionId = '' } = useParams();
   const collection = useSelector(selectCollection(collectionId));
+  if (!collection) return null;
+
   const { title, items } = collection;
 
   return (
