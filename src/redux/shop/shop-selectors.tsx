@@ -24,3 +24,8 @@ export const selectCollectionsForPreview = createSelector(
     //@ts-ignore
     collections ? Object.keys(collections).map((key) => collections[key]) : []
 );
+
+export const selectIsCollectionFetching = createSelector(
+  selectShop,
+  (shop) => shop.isFetching
+);

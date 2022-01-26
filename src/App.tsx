@@ -18,7 +18,7 @@ import { selectCurrentUser } from './redux/user/user-selector';
 // import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
 
 import { createStructuredSelector } from 'reselect';
-import { AppDispatch } from './redux/store';
+import type { AppDispatch } from './redux/store';
 
 /* Pages */
 import HomePage from './pages/home/HomePage';
