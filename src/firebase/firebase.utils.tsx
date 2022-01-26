@@ -20,7 +20,7 @@ import { Item } from '../interfaces';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBgOslrj6gg6djD4c5nTbk400Fo5faxcT4',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'crwn-db-48047.firebaseapp.com',
   databaseURL: 'https://crwn-db-48047.firebaseio.com',
   projectId: 'crwn-db-48047',

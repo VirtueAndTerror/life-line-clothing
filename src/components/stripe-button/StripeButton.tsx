@@ -5,8 +5,10 @@ type SCBProps = {
 };
 const StripeCheckoutButton = ({ price }: SCBProps) => {
   const priceForStripe = price * 100;
-  const publishableKey =
-    'pk_test_51IPyIbJ10HjkFVWcNii8Y5nwoeRkhz8rZYyR6cOGmnMSlUJRFSOFW1HpdGaCJxN3kxp01mJYnJ4J95BbJaFbqFwe004MciZ0TT';
+  const publishableKey = process.env.REACT_APP_STRIPE_SECRET_KEY;
+
+  if (!publishableKey)
+    throw Error('Please set the Stripe envinomental variable.');
 
   const onToken = (token: any) => {
     console.log(token);
@@ -16,7 +18,7 @@ const StripeCheckoutButton = ({ price }: SCBProps) => {
   return (
     <StripeCheckout
       label='Pay Now'
-      name='CRWN Clothing Ltd.'
+      name='Life Line Clothing Ltd.'
       billingAddress
       shippingAddress
       description={`Your total is $${price}`}
