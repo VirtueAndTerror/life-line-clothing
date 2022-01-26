@@ -1,4 +1,4 @@
-import type { Reducer } from 'redux';
+import type { Reducer, Action } from 'redux';
 import { DirectoryItem } from '../../components/directory/Directory';
 
 export interface DirState {
@@ -42,7 +42,7 @@ const INITIAL_STATE: DirState = {
   ],
 };
 
-const directoryReducer: Reducer = (state = INITIAL_STATE, action: any) => {
+const directoryReducer: Reducer = (state = INITIAL_STATE, action: Action) => {
   switch (action.type) {
     default:
       return state;
