@@ -84,7 +84,7 @@ const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
           </Route>
           <Route path='checkout' element={<CheckoutPage />} />
           <Route path='signIn' element={<PrivateRoute redirectTo='/' />}>
-            <Route path='' element={<SignInAndSignUpPage />} />
+            <Route index element={<SignInAndSignUpPage />} />
           </Route>
         </Route>
       </Routes>
