@@ -15,7 +15,7 @@ import { FirebaseError } from 'firebase/app';
 interface SignInState {
   email: string;
   password: string;
-  error: { msg: string } | null;
+  errorMsg: string;
 }
 
 interface SignInProps {}
@@ -27,7 +27,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     this.state = {
       email: '',
       password: '',
-      error: null,
+      errorMsg: '',
     };
   }
 
@@ -47,7 +47,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
         this.setState({
           email: '',
           password: '',
-          error: { msg: 'Username and password no not match' },
+          errorMsg: 'Username and password no not match',
         });
       } else {
         console.error(error);
@@ -62,7 +62,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
   };
 
   render() {
-    const { error } = this.state;
+    const { email, password, errorMsg } = this.state;
     return (
       <div className='sign-in'>
         <h2 className='title'>I already have an account</h2>
@@ -73,7 +73,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
             type='email'
             name='email'
             label='Email'
-            value={this.state.email}
+            value={email}
             handleChange={this.handleChange}
             required
           />
@@ -82,7 +82,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
             type='password'
             name='password'
             label='Password'
-            value={this.state.password}
+            value={password}
             handleChange={this.handleChange}
             required
           />
@@ -93,7 +93,7 @@ class SignIn extends React.Component<SignInProps, SignInState> {
               Sign in with Google
             </CustomButton>
           </div>
-          <div className='errorMsg'>{error && <span>{error?.msg}</span>}</div>
+          <div className='errorMsg'>{errorMsg && <span>{errorMsg}</span>}</div>
         </form>
       </div>
     );
