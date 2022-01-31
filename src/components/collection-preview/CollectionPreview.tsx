@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import CollectionItem from '../collection-item/CollectionItem';
-import { Collections } from '../../interfaces';
+import { Collection } from '../../interfaces';
 
 import './collection-preview.scss';
 
-interface CPProps extends Collections {}
+interface CPProps extends Collection {}
 
 const CollectionPreview = ({ title, items, routeName }: CPProps) => (
   <div className='collection-preview'>

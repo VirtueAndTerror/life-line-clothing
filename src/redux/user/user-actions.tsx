@@ -1,4 +1,4 @@
-import { CurrentUser } from '../../App';
+import type { CurrentUser } from '../../interfaces';
 import { UserActionTypes } from './user-types';
 
 export interface SetCurrentUserAction {

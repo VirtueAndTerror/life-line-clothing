@@ -1,31 +1,21 @@
-import { connect, ConnectedProps } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import type { Collections } from '../../interfaces';
+import { useSelector } from 'react-redux';
+import type { Collection } from '../../interfaces';
 
 import { selectCollectionsForPreview } from '../../redux/shop/shop-selectors';
 
 import CollectionPreview from '../collection-preview/CollectionPreview';
 
-import './collections-overvies.scss';
+import './collections-overview.scss';
 
-interface COProps extends PropsFromRedux {
-  collections: Collections[];
-}
+const CollectionsOverview = () => {
+  const collections = useSelector(selectCollectionsForPreview);
+  return (
+    <div className='collections-overview'>
+      {collections.map(({ id, ...otherCollectionProps }) => (
+        <CollectionPreview key={id} id={id} {...otherCollectionProps} />
+      ))}
+    </div>
+  );
+};
 
-const CollectionsOverview = ({ collections }: COProps) => (
-  <div className='collections-overview'>
-    {collections.map(({ id, ...otherCollectionProps }) => (
-      <CollectionPreview key={id} id={id} {...otherCollectionProps} />
-    ))}
-  </div>
-);
-
-const mapStateToProps = createStructuredSelector({
-  collections: selectCollectionsForPreview,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(CollectionsOverview);
+export default CollectionsOverview;

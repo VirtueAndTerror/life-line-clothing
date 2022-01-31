@@ -1,12 +1,13 @@
-import { createSelector } from 'reselect';
+import { createSelector, Selector } from 'reselect';
 import type { RootState } from '../store';
-import type { Collections } from '../../interfaces';
+import type { Collection } from '../../interfaces';
+import type { ShopState } from './shop-reducer';
 
 type Map = {
-  [key: string]: Collections;
+  [key: string]: Collection;
 };
 
-const selectShop = (state: RootState) => state.shop;
+const selectShop: Selector<RootState, ShopState> = (state) => state.shop;
 
 export const selectShopCollections = createSelector(
   selectShop,
@@ -14,6 +15,7 @@ export const selectShopCollections = createSelector(
 );
 
 export const selectCollection = (collectionUrlParam: string) =>
+  //@ts-ignore
   createSelector(selectShopCollections, (collections: Map) =>
     collections ? collections[collectionUrlParam] : null
   );

@@ -1,4 +1,4 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   clearItemFromCart,
   addItem,
@@ -9,16 +9,12 @@ import type { Item } from '../../interfaces';
 
 import './checkout-item.scss';
 
-interface ChIProps extends PropsFromFedux {
+interface ChIProps {
   cartItem: Item;
 }
 
-const CheckoutItem = ({
-  cartItem,
-  clearItemFromCart,
-  removeItem,
-  addItem,
-}: ChIProps) => {
+const CheckoutItem = ({ cartItem }: ChIProps) => {
+  const dispatch = useDispatch();
   const { name, imageUrl, price, quantity } = cartItem;
   return (
     <div className='checkout-item'>
@@ -27,18 +23,18 @@ const CheckoutItem = ({
       </div>
       <span className='name'>{name}</span>
       <span className='quantity'>
-        <div className='arrow' onClick={() => removeItem(cartItem)}>
+        <div className='arrow' onClick={() => dispatch(removeItem(cartItem))}>
           &#10094;
         </div>
         <span className='value'>{quantity}</span>
-        <div className='arrow' onClick={() => addItem(cartItem)}>
+        <div className='arrow' onClick={() => dispatch(addItem(cartItem))}>
           &#10095;
         </div>
       </span>
       <span className='price'>{price}</span>
       <div
         className='remove-button'
-        onClick={() => clearItemFromCart(cartItem)}
+        onClick={() => dispatch(clearItemFromCart(cartItem))}
       >
         &#10005;
       </div>
@@ -46,14 +42,4 @@ const CheckoutItem = ({
   );
 };
 
-const mapDispatchToProps = {
-  clearItemFromCart,
-  removeItem,
-  addItem,
-};
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromFedux = ConnectedProps<typeof connector>;
-
-export default connector(CheckoutItem);
+export default CheckoutItem;

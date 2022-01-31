@@ -1,6 +1,6 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
+
 import { signOutUser } from '../../firebase/firebase.utils';
 
 import { selectCartHidden } from '../../redux/cart/cart-selectors';
@@ -11,15 +11,11 @@ import CartDropdown from '../cart-dropdown/CartDropdown';
 
 import { ReactComponent as Logo } from '../../assets/life-line.svg';
 
-import type { CurrentUser } from '../../App';
-
 import './header.scss';
 
-interface HProps extends PropsFormRedux {
-  currentUser: CurrentUser;
-}
-
-const Header = ({ currentUser, hidden }: HProps) => {
+const Header = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  const hidden = useSelector(selectCartHidden);
   return (
     <>
       <div className='header'>
@@ -52,14 +48,4 @@ const Header = ({ currentUser, hidden }: HProps) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  // With 'reselect'library we pass createStructuredSelector instead on a function that take the state.
-  currentUser: selectCurrentUser,
-  hidden: selectCartHidden,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFormRedux = ConnectedProps<typeof connector>;
-
-export default connector(Header);
+export default Header;

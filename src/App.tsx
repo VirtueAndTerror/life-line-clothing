@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import type { CurrentUser } from './interfaces';
 
 /* Firebase */
 import { onAuthStateChanged } from 'firebase/auth';
@@ -11,14 +12,10 @@ import {
 } from './firebase/firebase.utils';
 
 /* Redux & Reselect */
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCurrentUser } from './redux/user/user-actions';
-import { selectCurrentUser } from './redux/user/user-selector';
 // One-time use
 // import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
-
-import { createStructuredSelector } from 'reselect';
-import type { AppDispatch } from './redux/store';
 
 /* Pages */
 import HomePage from './pages/home/HomePage';
@@ -35,16 +32,9 @@ import CollectionsOverview from './components/collections-overview/CollectionsOv
 /* CSS */
 import './App.css';
 
-export type CurrentUser = {
-  id: string;
-  email: string;
-  displayName: string;
-  createdAt: Date;
-} | null;
+const App = () => {
+  const dispatch = useDispatch();
 
-interface AppProps extends PropsFromRedux {}
-
-const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
@@ -55,7 +45,7 @@ const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
             const user = { id: docSnap.id, ...docSnap.data() } as CurrentUser;
 
             console.log({ user });
-            setCurrentUser(user);
+            dispatch(setCurrentUser(user));
             /* One-time use:: migrate data to Firebase */
             // addCollectionAndDocs(
             //   'collections',
@@ -63,7 +53,7 @@ const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
             // );
           });
         } else {
-          setCurrentUser(null);
+          dispatch(setCurrentUser(null));
         }
       }
     });
@@ -71,7 +61,7 @@ const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
     return () => {
       unsubscribe();
     };
-  }, [setCurrentUser]);
+  }, [dispatch]);
 
   return (
     <>
@@ -92,18 +82,4 @@ const App = ({ setCurrentUser /* collectionsArray  */ }: AppProps) => {
   );
 };
 
-/* Redux w/ Typescript */
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  // collectionsArray: selectCollectionsForPreview,
-});
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  setCurrentUser: (user: CurrentUser) => dispatch(setCurrentUser(user)),
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(App);
+export default App;

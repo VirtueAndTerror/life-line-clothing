@@ -1,6 +1,6 @@
 import { UserActionTypes, UserAction } from './user-types';
-import type { CurrentUser } from '../../App';
 import type { Reducer } from 'redux';
+import type { CurrentUser } from '../../interfaces';
 
 export interface UserState {
   readonly currentUser: CurrentUser;

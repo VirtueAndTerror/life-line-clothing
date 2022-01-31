@@ -16,7 +16,7 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { Item } from '../interfaces';
+import { Collection, Item } from '../interfaces';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -95,6 +95,11 @@ export const addCollectionAndDocs = async (
     const error: FirebaseError = err;
     console.error('Error while adding collections', error);
   }
+};
+
+// @Todo Find out how to type this function
+type Map = {
+  [key: string]: Collection;
 };
 
 export const convertCollectionsSnapshotToMap = (collections: QuerySnapshot) => {

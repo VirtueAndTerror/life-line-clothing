@@ -1,27 +1,22 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { connect, useSelector } from 'react-redux';
 
-/* Redux & Redux-Thunk */
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop-actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop-saga';
 import { selectIsCollectionFetching } from '../../redux/shop/shop-selectors';
-import type { ThunkDispatch } from 'redux-thunk';
-import type { RootState } from '../../redux/store';
-import type { ShopAction } from '../../redux/shop/shop-types';
+
+import type { AppDispatch } from '../../redux/store';
 
 /* Components */
 import Spinner from '../../components/spinner/Spinner';
 
-interface SPProps extends PropsFromRedux {}
-
-const ShopPage = (props: SPProps) => {
-  const { isCollectionFetching, fetchCollectionsStartAsync } = props;
+const ShopPage = () => {
+  const isCollectionFetching = useSelector(selectIsCollectionFetching);
 
   useEffect(() => {
-    // The data fetching logic was extracted to redux-thunk.
-    fetchCollectionsStartAsync();
-  }, [fetchCollectionsStartAsync]);
+    // The data fetching logic was extracted to redux-saga.
+    fetchCollectionsStart();
+  }, []);
 
   return (
     <div className='shop-page'>
@@ -30,19 +25,12 @@ const ShopPage = (props: SPProps) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  isCollectionFetching: selectIsCollectionFetching,
-});
-
 /* Redux w/Typescript */
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<RootState, undefined, ShopAction>
-) => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  // @ts-ignore
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
+const connector = connect(null, mapDispatchToProps);
 
 export default connector(ShopPage);

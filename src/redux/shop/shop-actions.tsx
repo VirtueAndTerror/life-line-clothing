@@ -6,7 +6,6 @@ import {
 } from '../../firebase/firebase.utils';
 import { onSnapshot, collection } from 'firebase/firestore';
 import { Dispatch } from 'redux';
-import { AppThunk } from '../store';
 
 export interface FetchCollectionsStartAction {
   type: ShopActionTypes.FETCH_COLLECTIONS_START;
@@ -40,7 +39,7 @@ export const fetchCollectionsFailure = (
   payload: errorMsg,
 });
 
-export const fetchCollectionsStartAsync = (): AppThunk => {
+export const fetchCollectionsStartAsync = () => {
   return (dispatch: Dispatch) => {
     const collectionRef = collection(db, 'collections');
     dispatch(fetchCollectionsStart());
