@@ -12,8 +12,8 @@ import {
 import {
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithPopup,
-  signOut,
   User,
 } from 'firebase/auth';
 import { Collection, Item } from '../interfaces';
@@ -34,8 +34,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 // Create new user doc in Frirestore
 export const createUserProfileDocument = async (
@@ -70,10 +70,7 @@ export const createUserProfileDocument = async (
 };
 
 // To use in SingInAndSingUp component
-export const signInWithGoogle = () => signInWithPopup(auth, provider);
-export const signOutUser = () => {
-  signOut(auth);
-};
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 export const addCollectionAndDocs = async (
   collectionKey: string,
@@ -119,6 +116,19 @@ export const convertCollectionsSnapshotToMap = (collections: QuerySnapshot) => {
     acc[collection.title.toLowerCase()] = collection;
     return acc;
   }, {});
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };
 
 export default { db };

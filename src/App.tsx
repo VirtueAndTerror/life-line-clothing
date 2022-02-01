@@ -1,19 +1,10 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import type { CurrentUser } from './interfaces';
 
-/* Firebase */
-import { onAuthStateChanged } from 'firebase/auth';
-import { onSnapshot } from 'firebase/firestore';
-import {
-  auth,
-  createUserProfileDocument,
-  // addCollectionAndDocs,
-} from './firebase/firebase.utils';
+/* Redux & Saga */
+import { useAppDispatch } from './redux/hooks';
+import { checkUserSession } from './redux/user/user-actions';
 
-/* Redux & Reselect */
-import { useDispatch } from 'react-redux';
-import { setCurrentUser } from './redux/user/user-actions';
 // One-time use
 // import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
 
@@ -33,34 +24,10 @@ import CollectionsOverview from './components/collections-overview/CollectionsOv
 import './App.css';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (userAuth) => {
-      if (userAuth) {
-        const userDocRef = await createUserProfileDocument(userAuth, {});
-
-        if (userDocRef) {
-          onSnapshot(userDocRef, (docSnap) => {
-            const user = { id: docSnap.id, ...docSnap.data() } as CurrentUser;
-
-            console.log({ user });
-            dispatch(setCurrentUser(user));
-            /* One-time use:: migrate data to Firebase */
-            // addCollectionAndDocs(
-            //   'collections',
-            //   collectionsArray.map(({ title, items }) => ({ title, items }))
-            // );
-          });
-        } else {
-          dispatch(setCurrentUser(null));
-        }
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
+    dispatch(checkUserSession());
   }, [dispatch]);
 
   return (

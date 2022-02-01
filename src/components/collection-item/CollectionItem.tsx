@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 
 import CustomButton from '../custom-button/CustomButton';
 
@@ -13,7 +13,7 @@ interface CIProps {
 }
 
 const CollectionItem = ({ item }: CIProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name, price, imageUrl } = item;
   return (
     <div className='collection-item'>

@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-import { fetchCollectionsStart } from '../../redux/shop/shop-saga';
 import { selectIsCollectionFetching } from '../../redux/shop/shop-selectors';
-
-import type { AppDispatch } from '../../redux/store';
+import { fetchCollectionsStart } from '../../redux/shop/shop-actions';
 
 /* Components */
 import Spinner from '../../components/spinner/Spinner';
 
 const ShopPage = () => {
-  const isCollectionFetching = useSelector(selectIsCollectionFetching);
+  const isCollectionFetching = useAppSelector(selectIsCollectionFetching);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // The data fetching logic was extracted to redux-saga.
-    fetchCollectionsStart();
-  }, []);
+    dispatch(fetchCollectionsStart());
+  }, [dispatch]);
 
   return (
     <div className='shop-page'>
@@ -25,12 +24,4 @@ const ShopPage = () => {
   );
 };
 
-/* Redux w/Typescript */
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  // @ts-ignore
-  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-export default connector(ShopPage);
+export default ShopPage;

@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 
 import CustomButton from '../custom-button/CustomButton';
@@ -11,8 +11,8 @@ import { toggleCartHidden } from '../../redux/cart/cart-actions';
 import './cart-dropdown.scss';
 
 const Cart = () => {
-  const cartItems = useSelector(selectCartItems);
-  const dispatch = useDispatch();
+  const cartItems = useAppSelector(selectCartItems);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   return (
     <div className='cart-dropdown'>

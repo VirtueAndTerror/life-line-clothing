@@ -9,7 +9,6 @@ const PrivateRoute = ({ redirectTo }: PRProps) => {
   const currentUser = useSelector(selectCurrentUser);
   const location = useLocation();
 
-  console.log({ currentUser });
   if (currentUser)
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
 

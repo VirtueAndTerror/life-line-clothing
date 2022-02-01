@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import {
   clearItemFromCart,
   addItem,
@@ -14,7 +14,7 @@ interface ChIProps {
 }
 
 const CheckoutItem = ({ cartItem }: ChIProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name, imageUrl, price, quantity } = cartItem;
   return (
     <div className='checkout-item'>

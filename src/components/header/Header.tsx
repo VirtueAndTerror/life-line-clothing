@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { Link, Outlet } from 'react-router-dom';
-
-import { signOutUser } from '../../firebase/firebase.utils';
 
 import { selectCartHidden } from '../../redux/cart/cart-selectors';
 import { selectCurrentUser } from '../../redux/user/user-selector';
+import { signOutStart } from '../../redux/user/user-actions';
 
 import CartIcon from '../cart-icon/CartIcon';
 import CartDropdown from '../cart-dropdown/CartDropdown';
@@ -14,8 +13,10 @@ import { ReactComponent as Logo } from '../../assets/life-line.svg';
 import './header.scss';
 
 const Header = () => {
-  const currentUser = useSelector(selectCurrentUser);
-  const hidden = useSelector(selectCartHidden);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const hidden = useAppSelector(selectCartHidden);
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <div className='header'>
@@ -31,8 +32,8 @@ const Header = () => {
             <Link to='/shop'>CONTACT</Link>
           </div>
           {currentUser ? (
-            <div className='option' onClick={signOutUser}>
-              <a href='/'>SIGN OUT</a>
+            <div className='option' onClick={() => dispatch(signOutStart())}>
+              <Link to='/'>SIGN OUT</Link>
             </div>
           ) : (
             <div className='option'>

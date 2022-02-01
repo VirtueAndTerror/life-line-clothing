@@ -19,6 +19,10 @@ export interface RemoveItemAction {
   payload: Item;
 }
 
+export interface ClearCartAction {
+  type: CartActionTypes.CLEAR_CART;
+}
+
 export const toggleCartHidden = (): ToggleHiddenAction => ({
   type: CartActionTypes.TOGGLE_CART_HIDDEN,
 });
@@ -36,4 +40,8 @@ export const clearItemFromCart = (item: Item): ClearItemFromCartAction => ({
 export const removeItem = (item: Item): RemoveItemAction => ({
   type: CartActionTypes.REMOVE_ITEM,
   payload: item,
+});
+
+export const clearCart = (): ClearCartAction => ({
+  type: CartActionTypes.CLEAR_CART,
 });
