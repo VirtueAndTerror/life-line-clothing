@@ -6,6 +6,7 @@ import CustomButton from '../custom-button/CustomButton';
 import './sign-up.scss';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { FirebaseError } from 'firebase/app';
 
 interface SUState {
   displayName: string;
@@ -51,10 +52,17 @@ class SignUp extends React.Component<SUProps, SUState> {
         password: '',
         confirmPassword: '',
       });
-    } catch (err) {
+    } catch (err: unknown) {
+      if (
+        err instanceof FirebaseError &&
+        err.code === 'auth/email-already-in-use'
+      ) {
+        alert('Could not sign up: email already in use');
+      }
       console.error(err);
     }
   };
+
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     //@ts-ignore
@@ -65,7 +73,7 @@ class SignUp extends React.Component<SUProps, SUState> {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
       <div className='sign-up'>
-        <h2 className='title'>I do not have an account</h2>
+        <h2 className='title'>I do not have an account?</h2>
         <form className='sign-up-form'>
           <FormInput
             type='text'
@@ -84,7 +92,7 @@ class SignUp extends React.Component<SUProps, SUState> {
             required
           ></FormInput>
           <FormInput
-            type='text'
+            type='password'
             name='password'
             value={password}
             handleChange={this.handleChange}
@@ -92,7 +100,7 @@ class SignUp extends React.Component<SUProps, SUState> {
             required
           ></FormInput>
           <FormInput
-            type='text'
+            type='password'
             name='confirmPassword'
             value={confirmPassword}
             handleChange={this.handleChange}

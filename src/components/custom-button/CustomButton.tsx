@@ -8,6 +8,14 @@ interface CBProps {
   inverted?: boolean;
 }
 
+/* 
+default style
+
+inverted style
+
+google sign in style
+*/
+
 const CustomButton = ({
   children,
   isGoogleSignIn,

@@ -43,14 +43,23 @@ class SignIn extends React.Component<SignInProps, SignInState> {
       const error: FirebaseError = err;
       const errorCode = error.code;
 
-      if (errorCode === 'auth/user-not-found') {
-        this.setState({
-          email: '',
-          password: '',
-          error: { msg: 'Username and password no not match' },
-        });
-      } else {
-        console.error(error);
+      switch (errorCode) {
+        case 'auth/wrong-password':
+          this.setState({
+            email: '',
+            password: '',
+            error: { msg: 'Username & password do not match' },
+          });
+          break;
+        case 'auth/user-not-found':
+          this.setState({
+            email: '',
+            password: '',
+            error: { msg: 'No user associated with this email' },
+          });
+          break;
+        default:
+          console.log(error);
       }
     }
   };
@@ -89,7 +98,11 @@ class SignIn extends React.Component<SignInProps, SignInState> {
 
           <div className='buttons'>
             <CustomButton type='submit'>Sign in</CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+            <CustomButton
+              type='button'
+              onClick={signInWithGoogle}
+              isGoogleSignIn
+            >
               Sign in with Google
             </CustomButton>
           </div>

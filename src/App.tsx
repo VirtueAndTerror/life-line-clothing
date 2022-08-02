@@ -14,7 +14,8 @@ import {
 import { connect, ConnectedProps } from 'react-redux';
 import { setCurrentUser } from './redux/user/user-actions';
 import { selectCurrentUser } from './redux/user/user-selector';
-// One-time use
+
+/* One-time use */
 // import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
 
 import { createStructuredSelector } from 'reselect';
